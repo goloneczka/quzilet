@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -24,7 +25,7 @@ public class RoomDto {
     @NotEmpty
     private Set<@Valid QuestionDto> questions;
 
-    @NotBlank
+    @NotNull
     private LocalDateTime startDate;
 
 }
