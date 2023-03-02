@@ -15,8 +15,11 @@ import javax.persistence.*;
 @ToString(exclude = "room")
 public class QuestionEntity {
 
+    private static final String SEQ = "QUESTION_SEQ";
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name = SEQ, sequenceName = SEQ, initialValue = 10, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = SEQ)
     private Long id;
 
     @Column

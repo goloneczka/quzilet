@@ -18,6 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.nio.charset.StandardCharsets
 import org.apache.commons.io.IOUtils
 import static org.hamcrest.Matchers.containsInAnyOrder
+import static pl.quiz.ControllerMapping.CREATE_ROOM
 import static spock.util.matcher.HamcrestSupport.that
 
 import spock.lang.Specification
@@ -38,10 +39,10 @@ class RoomControllerITSpec extends Specification {
     def 'should return 200 when json creating room is ok'() {
 
         given:
-            String staticDataString = IOUtils.toString(new ClassPathResource("fixture/room/correctNewRoom.json").getInputStream(), StandardCharsets.UTF_8)
+            String staticDataString = IOUtils.toString(new ClassPathResource("fixture/json/room/correctNewRoom.json").getInputStream(), StandardCharsets.UTF_8)
 
         when:
-        def result = mockMvc.perform(post('/room')
+        def result = mockMvc.perform(post(CREATE_ROOM)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(staticDataString))
 
@@ -53,10 +54,10 @@ class RoomControllerITSpec extends Specification {
     def 'should return error when json creating room has wrong answer'() {
 
         given:
-        String staticDataString = IOUtils.toString(new ClassPathResource("fixture/room/newRoomWithIncorrectAnswer.json").getInputStream(), StandardCharsets.UTF_8)
+        String staticDataString = IOUtils.toString(new ClassPathResource("fixture/json/room/newRoomWithIncorrectAnswer.json").getInputStream(), StandardCharsets.UTF_8)
 
         when:
-        def result = mockMvc.perform(post('/room')
+        def result = mockMvc.perform(post(CREATE_ROOM)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(staticDataString))
             .andReturn()

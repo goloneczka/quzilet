@@ -7,13 +7,23 @@ import pl.quiz.domain.port.RoomPersistencePort;
 @AllArgsConstructor
 public class RoomPersistenceAdapter implements RoomPersistencePort {
 
-    private final RoomRepository roomRepository;
-    private final RoomMapper roomMapper;
+    private final RoomRepository repository;
+    private final RoomMapper mapper;
 
+    public RoomDto getRoomById(Long id) {
+        return mapper.roomToDTO(
+                repository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Room with given Id didnt find"))
+        );
+    }
+
+    public boolean isRoomExistById(Long id) {
+        return repository.existsById(id);
+    }
 
     public Long create(RoomDto room) {
-        RoomEntity entity = roomMapper.roomToEntity(room);
-        return roomRepository.save(entity).getId();
+        RoomEntity entity = mapper.roomToEntity(room);
+        return repository.save(entity).getId();
     }
 
 }

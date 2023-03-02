@@ -1,4 +1,4 @@
-package pl.quiz.infrastructure.room;
+package pl.quiz.infrastructure.temporaryuser;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -8,7 +8,7 @@ import java.util.Optional;
 
 @Repository
 @Transactional
-public interface RoomRepository extends JpaRepository<RoomEntity, Long> {
+public interface TemporaryUserRepository extends JpaRepository<TemporaryUserEntity, Long> {
 
-    Optional<RoomEntity> findById(Long id);
+    Optional<TemporaryUserEntity> getByUuid(String uuid);
 }

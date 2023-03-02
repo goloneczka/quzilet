@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
@@ -16,8 +17,11 @@ import java.util.Set;
 @EqualsAndHashCode(exclude = "questions")
 public class RoomEntity {
 
+    private static final String SEQ = "ROOM_SEQ";
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name = SEQ, sequenceName = SEQ, initialValue = 10, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = SEQ)
     private Long id;
 
     @Column
@@ -25,6 +29,9 @@ public class RoomEntity {
 
     @Column
     private String name;
+
+    @Column
+    private LocalDateTime startDate;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "room")
     private Set<QuestionEntity> questions;
