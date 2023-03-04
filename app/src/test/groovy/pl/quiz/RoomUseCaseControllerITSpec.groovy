@@ -1,10 +1,11 @@
 package pl.quiz
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import org.slf4j.helpers.MessageFormatter
+import org.apache.commons.io.IOUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.core.io.ClassPathResource
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.security.test.context.support.WithUserDetails
@@ -15,7 +16,14 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.transaction.annotation.Transactional
 
 import spock.lang.Specification
+
+import java.nio.charset.StandardCharsets
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -48,7 +56,7 @@ class RoomUseCaseControllerITSpec extends Specification {
             'classpath:fixture/sql/roomusecase/room_with_questions.sql'
     ])
     @WithUserDetails(value = "1111-222-3333-AA", userDetailsServiceBeanName = "temporaryUserAuthService")
-    def 'should return 406 if room still no open'() {
+    def 'should return 400 if room still no open'() {
         when:
         def result = mockMvc.perform(
                 post(ControllerMapping.OPEN_ROOM, 1)
@@ -58,25 +66,85 @@ class RoomUseCaseControllerITSpec extends Specification {
                 .response
 
         then:
-        result.status == HttpStatus.NOT_ACCEPTABLE.value()
+        result.status == HttpStatus.BAD_REQUEST.value()
     }
 
     @Sql([
-            'classpath:fixture/sql/roomusecase/room_with_questions.sql'
+            'classpath:fixture/sql/common/open_room_with_questions.sql'
     ])
     @WithUserDetails(value = "1111-222-3333-AA", userDetailsServiceBeanName = "temporaryUserAuthService")
     def 'should return 200 if room exists and is open'() {
         when:
         def result = mockMvc.perform(
-                post(ControllerMapping.OPEN_ROOM, 2)
+                post(ControllerMapping.OPEN_ROOM, 1)
                         .contentType(MediaType.APPLICATION_JSON)
         )
                 .andReturn()
                 .response
 
         then:
-        result.status == HttpStatus.NOT_ACCEPTABLE.value()
+        result.status == HttpStatus.OK.value()
     }
 
+    @Sql([
+            'classpath:fixture/sql/common/open_room_with_questions.sql'
+    ])
+    @WithUserDetails(value = "1111-222-3333-AA", userDetailsServiceBeanName = "temporaryUserAuthService")
+    def 'should return 200 getting next question'() {
+        when:
+        def result = mockMvc.perform(
+                get(ControllerMapping.GET_NEXT_QUESTION, 1)
+                        .contentType(MediaType.APPLICATION_JSON)
+        )
+        then:
+            result.andExpect(status().isOk())
+                    .andExpect(jsonPath('$.id').value(2))
+    }
+
+
+    def 'should return 401  getting next question when user not authorized'() {
+        when:
+        def result = mockMvc.perform(
+                get(ControllerMapping.GET_NEXT_QUESTION, 1)
+                        .contentType(MediaType.APPLICATION_JSON)
+        )
+        then:
+        result.andExpect(status().isUnauthorized())
+    }
+
+    @Sql([
+            'classpath:fixture/sql/common/open_room_with_questions.sql'
+    ])
+    @WithUserDetails(value = "1111-222-3333-AA", userDetailsServiceBeanName = "temporaryUserAuthService")
+    def 'should return 200 answering to question'() {
+
+        given:
+            String staticDataString = IOUtils.toString(new ClassPathResource("fixture/json/questionanswer/newQuestionAnswer.json").getInputStream(), StandardCharsets.UTF_8)
+
+        when:
+        def result = mockMvc.perform(
+                post(ControllerMapping.SAVE_QUESTION_ANSWER)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(staticDataString)
+        )
+        then:
+        result.andExpect(status().isOk())
+
+    }
+
+
+    def 'should return 401 answering to question when user not authorized'() {
+        given:
+            String staticDataString = IOUtils.toString(new ClassPathResource("fixture/json/questionanswer/newQuestionAnswer.json").getInputStream(), StandardCharsets.UTF_8)
+
+        when:
+        def result = mockMvc.perform(
+                post(ControllerMapping.SAVE_QUESTION_ANSWER)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(staticDataString)
+        )
+        then:
+        result.andExpect(status().isUnauthorized())
+    }
 
 }

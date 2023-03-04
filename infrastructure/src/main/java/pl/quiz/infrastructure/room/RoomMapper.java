@@ -1,6 +1,7 @@
 package pl.quiz.infrastructure.room;
 
 import org.mapstruct.Mapper;
+import pl.quiz.domain.dto.QuestionToAskDto;
 import pl.quiz.domain.dto.RoomDto;
 import pl.quiz.domain.dto.QuestionDto;
 import pl.quiz.infrastructure.UUIDGeneratorUtil;
@@ -12,12 +13,12 @@ import java.util.*;
 public
 interface RoomMapper {
 
-    RoomDto roomToDTO(RoomEntity room);
-
-    QuestionDto QuestionToDTO(QuestionEntity question);
-
+    QuestionDto questionToDTO(QuestionEntity question);
     QuestionEntity questionToEntity(QuestionDto question);
 
+    QuestionToAskDto questionToDto(QuestionEntity question);
+
+    RoomDto roomToDTO(RoomEntity room);
     default RoomEntity roomToEntity(RoomDto room) {
         RoomEntity entity = new RoomEntity();
         entity.setName(room.getName());
@@ -45,7 +46,6 @@ interface RoomMapper {
         }
         current.setNextQuestion(saveRoomQuestion(entity, questionDtoIterator));
         return current;
-
     }
 
 

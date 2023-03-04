@@ -3,9 +3,12 @@ package pl.quiz.infrastructure.temporaryuser;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import pl.quiz.infrastructure.questionanswer.QuestionAnswerEntity;
+import pl.quiz.infrastructure.room.QuestionEntity;
 import pl.quiz.infrastructure.room.RoomEntity;
 
 import javax.persistence.*;
+import java.util.Set;
 
 
 @Entity
@@ -31,7 +34,9 @@ public class TemporaryUserEntity {
     @Column
     private String sillyPassword;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "room_id")
-    private RoomEntity room;
+    @Column
+    private Long roomId;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "temporaryUser")
+    private Set<QuestionAnswerEntity> questionAnswers;
 }

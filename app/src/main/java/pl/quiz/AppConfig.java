@@ -5,8 +5,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import pl.quiz.domain.DomainConfig;
-import pl.quiz.domain.service.RoomService;
-import pl.quiz.domain.service.TemporaryUserAuthService;
+import pl.quiz.domain.port.QuestionAnswerPersistencePort;
+import pl.quiz.domain.port.QuestionPersistencePort;
+import pl.quiz.domain.service.*;
 import pl.quiz.domain.port.RoomPersistencePort;
 import pl.quiz.domain.port.TemporaryUserPersistencePort;
 import pl.quiz.domain.validator.ValidatorUtil;
@@ -20,6 +21,8 @@ public class AppConfig {
     private final RoomPersistencePort roomPersistencePort;
     private final ValidatorUtil validatorUtil;
     private final TemporaryUserPersistencePort temporaryUserPersistencePort;
+    private final QuestionPersistencePort questionPersistencePort;
+    private final QuestionAnswerPersistencePort questionAnswerPersistencePort;
 
     @Bean
     RoomService roomService(){
@@ -29,6 +32,20 @@ public class AppConfig {
     @Bean
     TemporaryUserAuthService temporaryUserAuthService(){
         return new TemporaryUserAuthService(temporaryUserPersistencePort);
+    }
 
+    @Bean
+    TemporaryUserService temporaryUserService(){
+        return new TemporaryUserService(temporaryUserPersistencePort, validatorUtil);
+    }
+
+    @Bean
+    QuestionAnswerService questionAnswerService(TemporaryUserService temporaryUserService){
+        return new QuestionAnswerService(questionAnswerPersistencePort, temporaryUserService, validatorUtil);
+    }
+
+    @Bean
+    QuestionService questionService(){
+        return new QuestionService(questionPersistencePort, validatorUtil);
     }
 }

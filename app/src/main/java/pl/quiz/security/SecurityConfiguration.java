@@ -11,6 +11,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.AuthenticationEntryPoint;
+import java.util.List;
+
 import pl.quiz.ControllerMapping;
 import pl.quiz.domain.Authority;
 import pl.quiz.domain.service.TemporaryUserAuthService;
@@ -23,6 +25,10 @@ public class SecurityConfiguration {
     @AllArgsConstructor
     public static class WebSecurityForTempAuth extends WebSecurityConfigurerAdapter {
 
+        private final String[] listForTempAuthUrls = new String[]{ControllerMapping.OPEN_ROOM,
+                ControllerMapping.GET_NEXT_QUESTION,
+                ControllerMapping.SAVE_QUESTION_ANSWER};
+
         private final TemporaryUserAuthService temporaryUserAuthService;
 
         protected void configure(AuthenticationManagerBuilder auth) {
@@ -34,11 +40,11 @@ public class SecurityConfiguration {
         protected void configure(HttpSecurity httpSecurity) throws Exception {
             httpSecurity
                     .requestMatchers()
-                    .antMatchers(ControllerMapping.OPEN_ROOM)
+                    .antMatchers(listForTempAuthUrls)
                 .and()
                     .csrf().disable()
                     .authorizeRequests()
-                    .antMatchers(ControllerMapping.OPEN_ROOM).hasAuthority(Authority.TEMPORARY_USER.toString())
+                    .antMatchers(listForTempAuthUrls).hasAuthority(Authority.TEMPORARY_USER.toString())
                 .and()
                     .sessionManagement()
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)

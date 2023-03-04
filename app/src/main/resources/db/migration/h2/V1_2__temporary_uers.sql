@@ -10,9 +10,11 @@ CREATE TABLE IF NOT EXISTS TEMPORARY_USER (
     CONSTRAINT fk_temporary_user_room_id foreign key (room_id) references ROOM(id),
 );
 
+create sequence QUESTION_ANSWER_SEQ increment by 1;
+
 CREATE TABLE IF NOT EXISTS QUESTION_ANSWER (
     id bigint PRIMARY KEY,
-    user_answer INTEGER not null,
+    user_answer INTEGER,
     question_id INTEGER not null,
     temporary_user_id INTEGER not null,
 

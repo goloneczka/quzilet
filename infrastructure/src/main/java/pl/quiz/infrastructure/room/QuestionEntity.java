@@ -1,9 +1,6 @@
 package pl.quiz.infrastructure.room;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -12,7 +9,8 @@ import javax.persistence.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString(exclude = "room")
+@ToString(exclude = {"room", "nextQuestion"})
+@EqualsAndHashCode(exclude = {"room", "nextQuestion"})
 public class QuestionEntity {
 
     private static final String SEQ = "QUESTION_SEQ";
@@ -43,7 +41,7 @@ public class QuestionEntity {
     @Column(name = "correct_answ_number")
     private Integer correctAnswerNumber;
 
-    @ManyToOne()
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "room_id")
     private RoomEntity room;
 

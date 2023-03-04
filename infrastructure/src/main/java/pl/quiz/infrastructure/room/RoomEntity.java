@@ -1,9 +1,6 @@
 package pl.quiz.infrastructure.room;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -14,6 +11,7 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString(exclude = "questions")
 @EqualsAndHashCode(exclude = "questions")
 public class RoomEntity {
 

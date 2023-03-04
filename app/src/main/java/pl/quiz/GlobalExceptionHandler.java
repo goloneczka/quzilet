@@ -13,7 +13,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ValidatorException.class)
     public ResponseEntity<FailedValidationDto> handleValidatorException(ValidatorException exception) {
-        return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE)
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(ValidationMapper.toDto(exception));
     }
 

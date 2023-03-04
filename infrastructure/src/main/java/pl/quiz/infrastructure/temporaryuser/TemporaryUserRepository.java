@@ -11,4 +11,6 @@ import java.util.Optional;
 public interface TemporaryUserRepository extends JpaRepository<TemporaryUserEntity, Long> {
 
     Optional<TemporaryUserEntity> getByUuid(String uuid);
+
+    boolean existsByUuid(String uuid);
 }

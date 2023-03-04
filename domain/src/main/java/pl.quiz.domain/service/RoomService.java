@@ -2,7 +2,9 @@ package pl.quiz.domain.service;
 
 import lombok.RequiredArgsConstructor;
 import pl.quiz.domain.dto.OpenRoom;
+import pl.quiz.domain.dto.QuestionToAskDto;
 import pl.quiz.domain.dto.RoomDto;
+import pl.quiz.domain.port.QuestionPersistencePort;
 import pl.quiz.domain.port.RoomPersistencePort;
 import pl.quiz.domain.validator.ValidatorUtil;
 
@@ -17,11 +19,9 @@ public class RoomService {
         return roomPersistencePort.create(room);
     }
 
-    public Long openRoomWithQuizIfPossible(OpenRoom openRoom) {
-        //check if user is recognized
-        //check if room start time is open
+    public QuestionToAskDto openRoomWithQuizIfPossible(OpenRoom openRoom) {
         validator.checkValidation(openRoom);
-        return openRoom.getRoomId();
+        return getFirstQuestionByRoomId(openRoom.getRoomId());
     }
 
     public boolean isRoomExistById(Long id){
@@ -31,4 +31,9 @@ public class RoomService {
     public RoomDto getRoom(Long id){
         return roomPersistencePort.getRoomById(id);
     }
+
+    private QuestionToAskDto getFirstQuestionByRoomId(Long id){
+        return roomPersistencePort.getFirstQuestionByRoomId(id);
+    }
+
 }
