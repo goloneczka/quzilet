@@ -6,7 +6,6 @@ import pl.quiz.domain.dto.QuestionToAskDto;
 import pl.quiz.domain.dto.RoomDto;
 import pl.quiz.domain.port.RoomPersistencePort;
 
-import java.util.Objects;
 
 @AllArgsConstructor
 public class RoomPersistenceAdapter implements RoomPersistencePort {

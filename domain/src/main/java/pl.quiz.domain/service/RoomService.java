@@ -1,10 +1,9 @@
 package pl.quiz.domain.service;
 
 import lombok.RequiredArgsConstructor;
-import pl.quiz.domain.dto.OpenRoom;
+import pl.quiz.domain.dto.vo.OpenRoomVO;
 import pl.quiz.domain.dto.QuestionToAskDto;
 import pl.quiz.domain.dto.RoomDto;
-import pl.quiz.domain.port.QuestionPersistencePort;
 import pl.quiz.domain.port.RoomPersistencePort;
 import pl.quiz.domain.validator.ValidatorUtil;
 
@@ -19,9 +18,9 @@ public class RoomService {
         return roomPersistencePort.create(room);
     }
 
-    public QuestionToAskDto openRoomWithQuizIfPossible(OpenRoom openRoom) {
-        validator.checkValidation(openRoom);
-        return getFirstQuestionByRoomId(openRoom.getRoomId());
+    public QuestionToAskDto openRoomWithQuizIfPossible(OpenRoomVO openRoomVO) {
+        validator.checkValidation(openRoomVO);
+        return getFirstQuestionByRoomId(openRoomVO.getRoomId());
     }
 
     public boolean isRoomExistById(Long id){

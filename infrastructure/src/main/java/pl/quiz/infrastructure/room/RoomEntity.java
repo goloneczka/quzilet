@@ -1,6 +1,7 @@
 package pl.quiz.infrastructure.room;
 
 import lombok.*;
+import pl.quiz.infrastructure.question.QuestionEntity;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;

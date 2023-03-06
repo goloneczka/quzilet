@@ -1,11 +1,8 @@
 package pl.quiz.domain.service;
 
 import lombok.RequiredArgsConstructor;
-import pl.quiz.domain.dto.OpenRoom;
 import pl.quiz.domain.dto.QuestionToAskDto;
-import pl.quiz.domain.dto.RoomDto;
 import pl.quiz.domain.port.QuestionPersistencePort;
-import pl.quiz.domain.port.RoomPersistencePort;
 import pl.quiz.domain.validator.ValidatorUtil;
 
 @RequiredArgsConstructor

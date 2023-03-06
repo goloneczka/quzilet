@@ -2,7 +2,11 @@ package pl.quiz.infrastructure;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import pl.quiz.domain.port.QuestionPersistencePort;
+import pl.quiz.infrastructure.mybatis.FinishUserDataRepository;
+import pl.quiz.infrastructure.mybatis.PersistenceAdapterMB;
+import pl.quiz.infrastructure.question.QuestionMapper;
+import pl.quiz.infrastructure.question.QuestionPersistenceAdapter;
+import pl.quiz.infrastructure.question.QuestionRepository;
 import pl.quiz.infrastructure.questionanswer.QuestionAnswerMapper;
 import pl.quiz.infrastructure.questionanswer.QuestionAnswerPersistenceAdapter;
 import pl.quiz.infrastructure.questionanswer.QuestionAnswerRepository;
@@ -21,9 +25,9 @@ public class InfrastructureConfig {
     }
 
     @Bean
-    QuestionPersistenceAdapter questionPersistencePort(RoomMapper roomMapper,
+    QuestionPersistenceAdapter questionPersistencePort(QuestionMapper questionMapper,
                                                        QuestionRepository questionRepository) {
-        return new QuestionPersistenceAdapter(questionRepository, roomMapper);
+        return new QuestionPersistenceAdapter(questionRepository, questionMapper);
     }
 
     @Bean
@@ -36,5 +40,10 @@ public class InfrastructureConfig {
     QuestionAnswerPersistenceAdapter questionAnswerPersistenceAdapter(QuestionAnswerMapper mapper,
                                                                       QuestionAnswerRepository repository) {
         return new QuestionAnswerPersistenceAdapter(repository, mapper);
+    }
+
+    @Bean
+    PersistenceAdapterMB persistenceAdapterMB(FinishUserDataRepository finishUserDataRepository){
+        return new PersistenceAdapterMB(finishUserDataRepository);
     }
 }

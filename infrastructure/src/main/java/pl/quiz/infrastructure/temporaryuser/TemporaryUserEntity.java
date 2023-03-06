@@ -4,8 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import pl.quiz.infrastructure.questionanswer.QuestionAnswerEntity;
-import pl.quiz.infrastructure.room.QuestionEntity;
-import pl.quiz.infrastructure.room.RoomEntity;
 
 import javax.persistence.*;
 import java.util.Set;

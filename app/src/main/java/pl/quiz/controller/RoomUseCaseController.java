@@ -5,12 +5,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.quiz.domain.dto.QuestionAnswerDto;
 import pl.quiz.domain.dto.QuestionToAskDto;
+import pl.quiz.domain.dto.vo.TempUserFinishDataVO;
 import pl.quiz.domain.service.QuestionAnswerService;
 import pl.quiz.domain.service.QuestionService;
 import pl.quiz.domain.service.RoomService;
-import pl.quiz.domain.dto.OpenRoom;
+import pl.quiz.domain.dto.vo.OpenRoomVO;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static pl.quiz.ControllerMapping.*;
 
@@ -27,7 +29,7 @@ public class RoomUseCaseController {
         return ResponseEntity.ok()
                 .body(
                         roomService.openRoomWithQuizIfPossible(
-                                new OpenRoom(roomId, LocalDateTime.now())
+                                new OpenRoomVO(roomId, LocalDateTime.now())
                         )
                 );
     }
@@ -48,11 +50,11 @@ public class RoomUseCaseController {
                 );
     }
 
-//    @GetMapping(value = GET_FINISH_DATA_TO_TMP_USER)
-//    ResponseEntity<QuestionToAskDto> getFinishTempUserData(@PathVariable Long userId) {
-//        return ResponseEntity.ok()
-//                .body(
-//                        questionService.getNextQuestion(currentQuestionId)
-//                );
-//    }
+    @GetMapping(value = GET_FINISH_DATA_TO_TMP_USER)
+    ResponseEntity<List<TempUserFinishDataVO>> getFinishTempUserData(@PathVariable String userUuid) {
+        return ResponseEntity.ok()
+                .body(
+                        questionAnswerService.getTempUserScore(userUuid)
+                );
+    }
 }

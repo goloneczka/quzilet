@@ -1,4 +1,4 @@
-package pl.quiz.infrastructure.room;
+package pl.quiz.infrastructure.question;
 
 import lombok.AllArgsConstructor;
 import pl.quiz.domain.dto.QuestionToAskDto;
@@ -10,7 +10,7 @@ import java.util.Objects;
 public class QuestionPersistenceAdapter implements QuestionPersistencePort {
 
     private final QuestionRepository repository;
-    private final RoomMapper mapper;
+    private final QuestionMapper mapper;
 
     @Override
     public QuestionToAskDto getNextQuestionByCurrentId(Long id) {

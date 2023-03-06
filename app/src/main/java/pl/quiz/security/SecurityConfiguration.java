@@ -17,6 +17,7 @@ import pl.quiz.ControllerMapping;
 import pl.quiz.domain.Authority;
 import pl.quiz.domain.service.TemporaryUserAuthService;
 
+
 @EnableWebSecurity(debug = false)
 public class SecurityConfiguration {
 
@@ -27,7 +28,8 @@ public class SecurityConfiguration {
 
         private final String[] listForTempAuthUrls = new String[]{ControllerMapping.OPEN_ROOM,
                 ControllerMapping.GET_NEXT_QUESTION,
-                ControllerMapping.SAVE_QUESTION_ANSWER};
+                ControllerMapping.SAVE_QUESTION_ANSWER,
+                ControllerMapping.GET_FINISH_DATA_TO_TMP_USER};
 
         private final TemporaryUserAuthService temporaryUserAuthService;
 

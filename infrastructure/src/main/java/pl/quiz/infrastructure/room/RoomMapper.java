@@ -5,6 +5,7 @@ import pl.quiz.domain.dto.QuestionToAskDto;
 import pl.quiz.domain.dto.RoomDto;
 import pl.quiz.domain.dto.QuestionDto;
 import pl.quiz.infrastructure.UUIDGeneratorUtil;
+import pl.quiz.infrastructure.question.QuestionEntity;
 
 import java.util.*;
 

@@ -12,6 +12,7 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 public class TemporaryUserDto {
 
+    private Long id;
     private String uuid;
     @NotBlank
     private String name;

@@ -1,6 +1,7 @@
-package pl.quiz.infrastructure.room;
+package pl.quiz.infrastructure.question;
 
 import lombok.*;
+import pl.quiz.infrastructure.room.RoomEntity;
 
 import javax.persistence.*;
 

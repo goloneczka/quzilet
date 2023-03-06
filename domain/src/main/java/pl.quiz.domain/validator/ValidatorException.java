@@ -7,7 +7,7 @@ public class ValidatorException extends RuntimeException {
 
     private final ValidationResult validationResult;
 
-    ValidatorException(String message, ValidationResult result) {
+    public ValidatorException(String message, ValidationResult result) {
         super(message);
         validationResult = result;
     }

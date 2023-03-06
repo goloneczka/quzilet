@@ -1,4 +1,4 @@
-package pl.quiz.infrastructure.room;
+package pl.quiz.infrastructure.question;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -9,10 +9,10 @@ import java.util.Optional;
 
 @Repository
 @Transactional
-public interface QuestionRepository extends JpaRepository<QuestionEntity, Long> {
+public interface QuestionRepository extends JpaRepository<pl.quiz.infrastructure.question.QuestionEntity, Long> {
 
     @Query("select e.nextQuestion from QuestionEntity e " +
             "where e.id = :id ")
-    Optional<QuestionEntity> getNextQuestionByCurrentId(Long id);
+    Optional<pl.quiz.infrastructure.question.QuestionEntity> getNextQuestionByCurrentId(Long id);
 
 }

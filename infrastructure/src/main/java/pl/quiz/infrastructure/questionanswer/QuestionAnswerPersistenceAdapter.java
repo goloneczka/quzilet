@@ -2,7 +2,6 @@ package pl.quiz.infrastructure.questionanswer;
 
 import lombok.AllArgsConstructor;
 import pl.quiz.domain.dto.QuestionAnswer;
-import pl.quiz.domain.dto.QuestionAnswerDto;
 import pl.quiz.domain.port.QuestionAnswerPersistencePort;
 
 @AllArgsConstructor
@@ -25,4 +24,5 @@ public class QuestionAnswerPersistenceAdapter implements QuestionAnswerPersisten
                         .orElseThrow(() -> new IllegalArgumentException("Temp User with given uuid didnt find"))
         );
     }
+
 }

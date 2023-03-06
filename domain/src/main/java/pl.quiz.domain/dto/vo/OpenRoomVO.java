@@ -1,4 +1,4 @@
-package pl.quiz.domain.dto;
+package pl.quiz.domain.dto.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @IsRoomAlreadyOpen
-public class OpenRoom {
+public class OpenRoomVO {
 
     @IsRoomExist
     private Long roomId;
