@@ -1,10 +1,12 @@
 package pl.quiz;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import pl.quiz.domain.DomainConfig;
+import pl.quiz.domain.event.EventPublisherWrapper;
 import pl.quiz.domain.port.*;
 import pl.quiz.domain.service.*;
 import pl.quiz.domain.validator.ValidatorUtil;
@@ -38,13 +40,19 @@ public class AppConfig {
     }
 
     @Bean
-    QuestionAnswerService questionAnswerService(TemporaryUserService temporaryUserService) {
+    QuestionAnswerService questionAnswerService(TemporaryUserService temporaryUserService,
+                                                EventPublisherWrapper eventPublisherWrapper) {
         return new QuestionAnswerService(questionAnswerPersistencePort, temporaryUserService,
-                validatorUtil, persistencePortMB);
+                validatorUtil, persistencePortMB, eventPublisherWrapper);
     }
 
     @Bean
     QuestionService questionService() {
         return new QuestionService(questionPersistencePort, validatorUtil);
+    }
+
+    @Bean
+    EventPublisherWrapper eventPublisherWrapper(ApplicationEventPublisher applicationEventPublisher){
+        return new EventPublisherWrapper(applicationEventPublisher);
     }
 }

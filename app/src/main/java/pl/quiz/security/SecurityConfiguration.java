@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import java.util.List;
 
@@ -36,6 +37,7 @@ public class SecurityConfiguration {
         protected void configure(AuthenticationManagerBuilder auth) {
             DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
             authenticationProvider.setUserDetailsService(temporaryUserAuthService);
+            authenticationProvider.setPasswordEncoder(NoOpPasswordEncoder.getInstance());
             auth.authenticationProvider(authenticationProvider);
         }
 

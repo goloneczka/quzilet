@@ -22,7 +22,5 @@ public class QuestionAnswerDto {
     private Long userAnswer;
     @IsQuestionExist
     private Long questionId;
-    @IsTempUserExist
-    private String tempUserUuid;
 
 }

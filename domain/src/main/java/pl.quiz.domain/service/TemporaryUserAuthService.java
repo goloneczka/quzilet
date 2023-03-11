@@ -27,7 +27,7 @@ public class TemporaryUserAuthService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String uuid) throws UsernameNotFoundException {
         return new User(
-                getTemporaryUserByUuid(uuid).getName(), EMPTY_PASSWORD, List.of(TEMPORARY_USER.toSimpleGrantedAuthority())
+                getTemporaryUserByUuid(uuid).getUuid(), EMPTY_PASSWORD, List.of(TEMPORARY_USER.toSimpleGrantedAuthority())
         );
     }
 }

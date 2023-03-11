@@ -26,7 +26,7 @@ import static spock.util.matcher.HamcrestSupport.that
 
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles('dev-h2')
+@ActiveProfiles('test-h2')
 @ContextConfiguration(classes = [App])
 @AutoConfigureMockMvc
 @Transactional

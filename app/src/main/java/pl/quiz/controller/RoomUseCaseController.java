@@ -2,6 +2,7 @@ package pl.quiz.controller;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import pl.quiz.domain.dto.QuestionAnswerDto;
 import pl.quiz.domain.dto.QuestionToAskDto;
@@ -35,10 +36,10 @@ public class RoomUseCaseController {
     }
 
     @PostMapping(value = SAVE_QUESTION_ANSWER)
-    ResponseEntity<Long> saveAnswer(@RequestBody QuestionAnswerDto questionAnswerDto) {
+    ResponseEntity<Long> saveAnswer(@RequestBody QuestionAnswerDto questionAnswerDto, Authentication auth) {
         return ResponseEntity.ok()
                 .body(
-                        questionAnswerService.createQuestionAnswer(questionAnswerDto)
+                        questionAnswerService.createQuestionAnswer(questionAnswerDto, auth.getName())
                 );
     }
 
@@ -51,10 +52,11 @@ public class RoomUseCaseController {
     }
 
     @GetMapping(value = GET_FINISH_DATA_TO_TMP_USER)
-    ResponseEntity<List<TempUserFinishDataVO>> getFinishTempUserData(@PathVariable String userUuid) {
+    ResponseEntity<List<TempUserFinishDataVO>> getFinishTempUserData(Authentication auth) {
         return ResponseEntity.ok()
                 .body(
-                        questionAnswerService.getTempUserScore(userUuid)
+                        questionAnswerService.getTempUserScore(auth.getName())
                 );
     }
+
 }

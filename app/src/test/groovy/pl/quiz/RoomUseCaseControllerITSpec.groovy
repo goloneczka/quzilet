@@ -9,15 +9,15 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.core.io.ClassPathResource
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
+import org.springframework.scheduling.annotation.EnableAsync
 import org.springframework.security.test.context.support.WithUserDetails
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.jdbc.Sql
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.transaction.annotation.Transactional
-import pl.quiz.domain.ErrorConstraint
-import pl.quiz.domain.dto.FailedValidationDto
 import pl.quiz.domain.dto.vo.TempUserFinishDataVO
+import pl.quiz.domain.event.AsyncCloseTempUserListener
 import spock.lang.Specification
 
 import java.nio.charset.StandardCharsets
@@ -25,14 +25,13 @@ import java.nio.charset.StandardCharsets
 import static org.hamcrest.Matchers.containsInAnyOrder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import static spock.util.matcher.HamcrestSupport.that
 
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles('dev-h2')
+@ActiveProfiles('test-h2')
 @ContextConfiguration(classes = [App])
 @AutoConfigureMockMvc
 @Transactional
@@ -43,6 +42,9 @@ class RoomUseCaseControllerITSpec extends Specification {
 
     @Autowired
     ObjectMapper objectMapper
+
+    @Autowired
+    AsyncCloseTempUserListener asyncCloseTempUserListener
 
     def 'should return 401 with needed redirection message'() {
         when:
@@ -157,10 +159,11 @@ class RoomUseCaseControllerITSpec extends Specification {
     ])
     @WithUserDetails(value = "1111-222-3333-AA", userDetailsServiceBeanName = "temporaryUserAuthService")
     def 'should return 200 getting finish user data'() {
+        given:
 
         when:
         def result = mockMvc.perform(
-                get(ControllerMapping.GET_FINISH_DATA_TO_TMP_USER, "1111-222-3333-AA")
+                get(ControllerMapping.GET_FINISH_DATA_TO_TMP_USER)
                         .contentType(MediaType.APPLICATION_JSON)
         )
                 .andReturn()
@@ -176,7 +179,6 @@ class RoomUseCaseControllerITSpec extends Specification {
                 )
                 it.size() == 3
             }
-
     }
 
 
@@ -184,7 +186,7 @@ class RoomUseCaseControllerITSpec extends Specification {
 
         when:
         def result = mockMvc.perform(
-                get(ControllerMapping.GET_FINISH_DATA_TO_TMP_USER, "1111-222-3333-AA")
+                get(ControllerMapping.GET_FINISH_DATA_TO_TMP_USER)
                         .contentType(MediaType.APPLICATION_JSON)
         )
         then:
