@@ -1,8 +1,6 @@
 package pl.quiz.infrastructure.temporaryuser;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import pl.quiz.infrastructure.questionanswer.QuestionAnswerEntity;
 
 import javax.persistence.*;
@@ -14,6 +12,8 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode(exclude = {"questionAnswers"})
+@ToString(exclude = {"questionAnswers"})
 public class TemporaryUserEntity {
 
     private static final String SEQ = "TEMPORARY_USER_SEQ";
@@ -35,6 +35,7 @@ public class TemporaryUserEntity {
     @Column
     private Long roomId;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "temporaryUser")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,
+            mappedBy = "temporaryUser", orphanRemoval = true)
     private Set<QuestionAnswerEntity> questionAnswers;
 }

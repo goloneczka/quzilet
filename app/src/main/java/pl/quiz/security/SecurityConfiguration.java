@@ -76,7 +76,9 @@ public class SecurityConfiguration {
                     .csrf().disable()
                     .authorizeRequests()
                     .antMatchers("/**")
-                    .permitAll();
+                    .permitAll()
+                    .and()
+                    .headers().frameOptions().sameOrigin();
         }
 
 

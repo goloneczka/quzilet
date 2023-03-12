@@ -20,6 +20,10 @@ public class TemporaryUserService {
         return temporaryUserPersistencePort.get(uuid);
     }
 
+    public Long deleteTempUser(TemporaryUserDto dto) {
+        return temporaryUserPersistencePort.delete(dto);
+    }
+
     public boolean isTempUserExist(String uuid) {
         return temporaryUserPersistencePort.isExist(uuid);
     }

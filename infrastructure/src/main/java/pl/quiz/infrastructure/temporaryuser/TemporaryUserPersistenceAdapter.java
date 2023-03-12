@@ -21,8 +21,8 @@ public class TemporaryUserPersistenceAdapter implements TemporaryUserPersistence
 
 
     @Override
-    public Long create(TemporaryUserDto room) {
-        TemporaryUserEntity entity = mapper.toEntity(room);
+    public Long create(TemporaryUserDto dto) {
+        TemporaryUserEntity entity = mapper.toEntity(dto);
         entity.setUuid(UUIDGeneratorUtil.generate64StringUUID());
         return repository.save(entity).getId();
     }
@@ -38,6 +38,14 @@ public class TemporaryUserPersistenceAdapter implements TemporaryUserPersistence
     @Override
     public boolean isExist(String uuid) {
         return repository.existsByUuid(uuid);
+    }
+
+    @Override
+    public Long delete(TemporaryUserDto dto) {
+        TemporaryUserEntity entity = mapper.toEntity(dto);
+        Long id = entity.getId();
+        repository.deleteById(id);
+        return id;
     }
 
 }

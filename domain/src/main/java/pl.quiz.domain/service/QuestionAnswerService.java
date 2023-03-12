@@ -7,7 +7,7 @@ import java.util.List;
 import pl.quiz.domain.dto.QuestionAnswer;
 import pl.quiz.domain.dto.QuestionAnswerDto;
 import pl.quiz.domain.dto.TemporaryUserDto;
-import pl.quiz.domain.dto.event.CloseTempUserEvent;
+import pl.quiz.domain.event.CloseTempUserEvent;
 import pl.quiz.domain.dto.vo.TempUserFinishDataVO;
 import pl.quiz.domain.dto.vo.TempUserVO;
 import pl.quiz.domain.event.EventPublisherWrapper;

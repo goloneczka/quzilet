@@ -2,6 +2,9 @@ package pl.quiz.infrastructure;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import pl.quiz.infrastructure.historicaltempuser.HistoricalTempUserMapper;
+import pl.quiz.infrastructure.historicaltempuser.HistoricalTempUserPersistenceAdapter;
+import pl.quiz.infrastructure.historicaltempuser.HistoricalTempUserRepository;
 import pl.quiz.infrastructure.mybatis.FinishUserDataRepository;
 import pl.quiz.infrastructure.mybatis.PersistenceAdapterMB;
 import pl.quiz.infrastructure.question.QuestionMapper;
@@ -34,6 +37,12 @@ public class InfrastructureConfig {
     TemporaryUserPersistenceAdapter temporaryUserPersistenceAdapter(TemporaryUserMapper mapper,
                                                                     TemporaryUserRepository repository) {
         return new TemporaryUserPersistenceAdapter(repository, mapper);
+    }
+
+    @Bean
+    HistoricalTempUserPersistenceAdapter historicalTempUserPersistenceAdapter(HistoricalTempUserMapper mapper,
+                                                                              HistoricalTempUserRepository repository) {
+        return new HistoricalTempUserPersistenceAdapter(repository, mapper);
     }
 
     @Bean

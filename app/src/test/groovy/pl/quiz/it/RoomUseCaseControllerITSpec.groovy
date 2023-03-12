@@ -1,4 +1,4 @@
-package pl.quiz
+package pl.quiz.it
 
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -9,13 +9,14 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.core.io.ClassPathResource
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
-import org.springframework.scheduling.annotation.EnableAsync
 import org.springframework.security.test.context.support.WithUserDetails
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.jdbc.Sql
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.transaction.annotation.Transactional
+import pl.quiz.App
+import pl.quiz.ControllerMapping
 import pl.quiz.domain.dto.vo.TempUserFinishDataVO
 import pl.quiz.domain.event.AsyncCloseTempUserListener
 import spock.lang.Specification

@@ -1,4 +1,4 @@
-package pl.quiz
+package pl.quiz.it
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.beans.factory.annotation.Autowired
@@ -12,6 +12,7 @@ import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.transaction.annotation.Transactional
+import pl.quiz.App
 import pl.quiz.domain.ErrorConstraint
 import pl.quiz.domain.dto.FailedValidationDto
 

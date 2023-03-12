@@ -1,4 +1,4 @@
-package pl.quiz.domain.dto.event;
+package pl.quiz.domain.event;
 
 import lombok.Getter;
 import org.springframework.context.ApplicationEvent;

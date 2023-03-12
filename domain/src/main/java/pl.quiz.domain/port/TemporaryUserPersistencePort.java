@@ -12,4 +12,5 @@ public interface TemporaryUserPersistencePort {
 
     boolean isExist(String uuid);
 
+    Long delete(TemporaryUserDto uuid);
 }
