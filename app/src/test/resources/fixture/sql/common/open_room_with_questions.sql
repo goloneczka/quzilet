@@ -8,7 +8,7 @@ SET @nd_question_id = QUESTION_SEQ.nextval;
 SET @th_question_id = QUESTION_SEQ.nextval;
 
 insert into ROOM values
-        (@room_id, '111-222', 'test room', FORMATDATETIME('2009-03-03 12:00:00', 'yyyy-MM-dd HH:mm:ss'));
+        (@room_id, '111-222', 'test room', FORMATDATETIME('2009-03-03 12:00:00', 'yyyy-MM-dd HH:mm:ss'), FORMATDATETIME('2009-03-03 13:00:00', 'yyyy-MM-dd HH:mm:ss'));
 
 
 insert into QUESTION values

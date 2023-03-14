@@ -28,4 +28,6 @@ public class RoomDto {
     @NotNull
     private LocalDateTime startDate;
 
+    private LocalDateTime endDate;
+
 }

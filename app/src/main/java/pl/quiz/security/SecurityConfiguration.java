@@ -1,6 +1,8 @@
 package pl.quiz.security;
 
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.config.MethodInvokingFactoryBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
@@ -10,6 +12,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import java.util.List;
@@ -33,6 +36,7 @@ public class SecurityConfiguration {
                 ControllerMapping.GET_FINISH_DATA_TO_TMP_USER};
 
         private final TemporaryUserAuthService temporaryUserAuthService;
+
 
         protected void configure(AuthenticationManagerBuilder auth) {
             DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
@@ -61,6 +65,7 @@ public class SecurityConfiguration {
                 response.sendError(HttpStatus.UNAUTHORIZED.value());
             });
         }
+
     }
 
     @Configuration

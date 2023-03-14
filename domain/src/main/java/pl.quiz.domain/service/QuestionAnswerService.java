@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 
 import java.util.List;
 
+import org.springframework.transaction.annotation.Transactional;
 import pl.quiz.domain.dto.QuestionAnswer;
 import pl.quiz.domain.dto.QuestionAnswerDto;
 import pl.quiz.domain.dto.TemporaryUserDto;
@@ -38,6 +39,7 @@ public class QuestionAnswerService {
                 .build();
     }
 
+    @Transactional
     public List<TempUserFinishDataVO> getTempUserScore(String userUuid) {
         validatorUtil.checkValidation(new TempUserVO(userUuid));
         List<TempUserFinishDataVO> finishDataVOList = persistencePortMB.getUserFinishDataFromRoom(userUuid);

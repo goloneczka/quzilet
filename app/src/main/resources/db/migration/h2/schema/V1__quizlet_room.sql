@@ -4,7 +4,8 @@ CREATE TABLE IF NOT EXISTS ROOM (
     id bigint PRIMARY KEY,
     uuid_path VARCHAR(127) not null,
     name VARCHAR(1024) not null,
-    start_date DATETIME not null
+    start_date DATETIME not null,
+    end_date DATETIME not null
 );
 
 create sequence QUESTION_SEQ increment by 1;

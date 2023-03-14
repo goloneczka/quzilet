@@ -1,10 +1,12 @@
 package pl.quiz;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.config.MethodInvokingFactoryBean;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.security.core.context.SecurityContextHolder;
 import pl.quiz.domain.DomainConfig;
 import pl.quiz.domain.event.AsyncCloseTempUserListener;
 import pl.quiz.domain.event.EventPublisherWrapper;
@@ -68,4 +70,5 @@ public class AppConfig {
                                                           TemporaryUserService temporaryUserService){
         return new AsyncCloseTempUserListener(historicalTemporaryUserService, temporaryUserService);
     }
+
 }

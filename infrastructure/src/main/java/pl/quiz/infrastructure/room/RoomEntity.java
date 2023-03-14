@@ -32,6 +32,9 @@ public class RoomEntity {
     @Column
     private LocalDateTime startDate;
 
+    @Column
+    private LocalDateTime endDate;
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "room")
     private Set<QuestionEntity> questions;
 

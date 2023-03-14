@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional
 import pl.quiz.App
 import pl.quiz.ControllerMapping
 import pl.quiz.domain.dto.vo.TempUserFinishDataVO
-import pl.quiz.domain.event.AsyncCloseTempUserListener
+import pl.quiz.infrastructure.questionanswer.QuestionAnswerRepository
 import spock.lang.Specification
 
 import java.nio.charset.StandardCharsets
@@ -27,6 +27,7 @@ import static org.hamcrest.Matchers.containsInAnyOrder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import static spock.util.matcher.HamcrestSupport.that
 
@@ -45,7 +46,7 @@ class RoomUseCaseControllerITSpec extends Specification {
     ObjectMapper objectMapper
 
     @Autowired
-    AsyncCloseTempUserListener asyncCloseTempUserListener
+    QuestionAnswerRepository questionAnswerRepository
 
     def 'should return 401 with needed redirection message'() {
         when:
@@ -155,6 +156,8 @@ class RoomUseCaseControllerITSpec extends Specification {
         result.andExpect(status().isUnauthorized())
     }
 
+    // TODO
+    // ASYNC INVOCATION IS NOT CALLED - callable needed
     @Sql([
             'classpath:fixture/sql/roomusecase/room_with_questions_and_answers.sql'
     ])
@@ -171,18 +174,21 @@ class RoomUseCaseControllerITSpec extends Specification {
                 .response
 
         then:
-            result.status == HttpStatus.OK.value()
-            with(objectMapper.readValue(result.contentAsString, new TypeReference<List<TempUserFinishDataVO>>() {})) {
-                that it, containsInAnyOrder(
-                        new TempUserFinishDataVO('test question 1', 1, 3),
-                        new TempUserFinishDataVO('test question 2', 1, 1),
-                        new TempUserFinishDataVO('test question 3', 1, 2)
-                )
-                it.size() == 3
-            }
+        result.status == HttpStatus.OK.value()
+        with(objectMapper.readValue(result.contentAsString, new TypeReference<List<TempUserFinishDataVO>>() {})) {
+            that it, containsInAnyOrder(
+                    new TempUserFinishDataVO('test question 1', 1, 3),
+                    new TempUserFinishDataVO('test question 2', 1, 1),
+                    new TempUserFinishDataVO('test question 3', 1, 2)
+            )
+            it.size() == 3
+        }
     }
 
 
+    @Sql([
+            'classpath:fixture/sql/roomusecase/room_with_questions_and_answers.sql'
+    ])
     def 'should return 401 getting finish user data when user not authorized'() {
 
         when:

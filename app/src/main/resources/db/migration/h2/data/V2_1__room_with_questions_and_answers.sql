@@ -11,7 +11,7 @@ SET @user_id = TEMPORARY_USER_SEQ.nextval;
 
 
 insert into ROOM values
-        (@room_id, '111-222', 'test room', FORMATDATETIME('2099-03-03 12:00:00', 'yyyy-MM-dd HH:mm:ss'));
+        (@room_id, '111-222', 'test room', FORMATDATETIME('2099-03-03 12:00:00', 'yyyy-MM-dd HH:mm:ss'), FORMATDATETIME('2099-03-03 13:00:00', 'yyyy-MM-dd HH:mm:ss'));
 
 
 insert into QUESTION values

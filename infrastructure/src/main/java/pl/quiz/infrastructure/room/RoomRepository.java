@@ -10,7 +10,6 @@ import pl.quiz.infrastructure.question.QuestionEntity;
 import java.util.Optional;
 
 @Repository
-@Transactional
 public interface RoomRepository extends JpaRepository<RoomEntity, Long> {
 
     Optional<RoomEntity> findById(Long id);

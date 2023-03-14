@@ -13,7 +13,7 @@ public class EventPublisherWrapper {
     ApplicationEventPublisher publisher;
 
     public void publishEvent(ApplicationEvent publishedObject){
-        log.info("Publisher: {} is publishing: {}", getPublisherName(publishedObject), publishedObject);
+        log.info("Publisher: {} is publishing: {} in thread: {}", getPublisherName(publishedObject), publishedObject, Thread.currentThread());
         publisher.publishEvent(publishedObject);
     }
 

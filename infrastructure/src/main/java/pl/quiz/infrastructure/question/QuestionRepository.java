@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 @Repository
-@Transactional
 public interface QuestionRepository extends JpaRepository<pl.quiz.infrastructure.question.QuestionEntity, Long> {
 
     @Query("select e.nextQuestion from QuestionEntity e " +

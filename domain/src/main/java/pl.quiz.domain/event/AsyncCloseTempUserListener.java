@@ -1,32 +1,51 @@
 package pl.quiz.domain.event;
 
 import lombok.AllArgsConstructor;
-import org.springframework.context.event.EventListener;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.EnableAsync;
-import org.springframework.stereotype.Component;
+import org.springframework.scheduling.annotation.AsyncConfigurer;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.event.TransactionalEventListener;
 import pl.quiz.domain.dto.HistoricalTempUserDto;
 import pl.quiz.domain.dto.TemporaryUserDto;
 import pl.quiz.domain.service.HistoricalTemporaryUserService;
 import pl.quiz.domain.service.TemporaryUserService;
 
 import java.util.Objects;
+import java.util.concurrent.Executor;
 
-@EnableAsync
 @AllArgsConstructor
-public class AsyncCloseTempUserListener {
+@Slf4j
+public class AsyncCloseTempUserListener implements AsyncConfigurer {
 
     HistoricalTemporaryUserService historicalTemporaryUserService;
     TemporaryUserService temporaryUserService;
 
+    @Override
+    public Executor getAsyncExecutor() {
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        executor.setMaxPoolSize(5);
+        executor.initialize();
+        executor.setThreadNamePrefix("async-listener-");
+        return executor;
+    }
+
+    @Override
+    public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
+        return AsyncConfigurer.super.getAsyncUncaughtExceptionHandler();
+    }
+
+
     @Async
-    @EventListener
-    @Transactional // TODO verify is transactional
+    @TransactionalEventListener
+    @Transactional
     public void cleanUpAfterTempUserFinishedRoom(CloseTempUserEvent closeTempUser) {
 
+        log.warn("listener {} is executing in thread {}", this.getClass(), Thread.currentThread());
+
         TemporaryUserDto temporaryUserDto = temporaryUserService.getTempUser(closeTempUser.getUserUuid());
-        // add to end room report
         Integer sumOfPoints = closeTempUser.getUserFinishDataVOList()
                 .stream()
                 .filter(v -> !Objects.isNull(v.getUserAnswer()))
@@ -41,7 +60,6 @@ public class AsyncCloseTempUserListener {
 
         historicalTemporaryUserService.createHistTempUser(historicalTempUserDto);
 
-        // remove user from db
         temporaryUserService.deleteTempUser(temporaryUserDto);
     }
 }

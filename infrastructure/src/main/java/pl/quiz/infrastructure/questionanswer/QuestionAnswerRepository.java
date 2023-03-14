@@ -10,7 +10,6 @@ import java.util.Optional;
 import java.util.List;
 
 @Repository
-@Transactional
 public interface QuestionAnswerRepository extends JpaRepository<QuestionAnswerEntity, Long> {
 
     Optional<QuestionAnswerEntity> findById(Long id);

@@ -7,7 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 @Repository
-@Transactional
 public interface TemporaryUserRepository extends JpaRepository<TemporaryUserEntity, Long> {
 
     Optional<TemporaryUserEntity> getByUuid(String uuid);
