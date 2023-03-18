@@ -14,4 +14,5 @@ public interface RoomPersistencePort {
 
     QuestionToAskDto getFirstQuestionByRoomId(Long id);
 
+    RoomDto getRoomByQuestionId(Long questionId);
 }

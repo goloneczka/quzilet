@@ -7,16 +7,12 @@ import pl.quiz.domain.dto.RoomDto;
 import pl.quiz.domain.port.RoomPersistencePort;
 import pl.quiz.domain.validator.ValidatorUtil;
 
+
 @RequiredArgsConstructor
 public class RoomService {
 
     private final RoomPersistencePort roomPersistencePort;
     private final ValidatorUtil validator;
-
-    public Long createRoom(RoomDto room){
-        validator.checkValidation(room);
-        return roomPersistencePort.create(room);
-    }
 
     public QuestionToAskDto openRoomWithQuizIfPossible(OpenRoomVO openRoomVO) {
         validator.checkValidation(openRoomVO);
@@ -35,4 +31,7 @@ public class RoomService {
         return roomPersistencePort.getFirstQuestionByRoomId(id);
     }
 
+    public RoomDto getRoomByQuestionId(Long questionId) {
+        return roomPersistencePort.getRoomByQuestionId(questionId);
+    }
 }

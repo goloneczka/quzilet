@@ -23,4 +23,10 @@ public interface RoomRepository extends JpaRepository<RoomEntity, Long> {
     @Query("select e.nextQuestion from QuestionEntity e " +
             "where e.id = :id ")
     Optional<QuestionEntity> getNextQuestionByCurrentId(Long id);
+
+    @Query("select r from QuestionEntity q " +
+            "join q.room r " +
+            "where q.id = :id")
+    Optional<RoomEntity> getRoomEntityByQuestionId(Long id);
+
 }

@@ -2,6 +2,7 @@ package pl.quiz.infrastructure.questionanswer;
 
 import lombok.AllArgsConstructor;
 import pl.quiz.domain.dto.QuestionAnswer;
+import pl.quiz.domain.dto.QuestionAnswerDto;
 import pl.quiz.domain.port.QuestionAnswerPersistencePort;
 
 @AllArgsConstructor
@@ -22,6 +23,13 @@ public class QuestionAnswerPersistenceAdapter implements QuestionAnswerPersisten
         return mapper.toDto(
                 repository.findById(id)
                         .orElseThrow(() -> new IllegalArgumentException("Temp User with given uuid didnt find"))
+        );
+    }
+
+    @Override
+    public boolean isUserAnswerAlreadyExist(QuestionAnswerDto questionAnswerDto) {
+        return repository.existsByQuestionIdAndUserAnswer(
+                questionAnswerDto.getQuestionId(), questionAnswerDto.getUserAnswer()
         );
     }
 

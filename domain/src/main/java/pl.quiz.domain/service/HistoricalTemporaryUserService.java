@@ -26,5 +26,6 @@ public class HistoricalTemporaryUserService {
                 .room(roomDto)
                 .build();
     }
+
 }
 

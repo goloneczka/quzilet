@@ -24,6 +24,7 @@ interface RoomMapper {
         RoomEntity entity = new RoomEntity();
         entity.setName(room.getName());
         entity.setStartDate(room.getStartDate());
+        entity.setEndDate(room.getEndDate());
         entity.setUuidPath(UUIDGeneratorUtil.generate64StringUUID());
 
         Set<QuestionEntity> questionEntitySet = new HashSet<>();

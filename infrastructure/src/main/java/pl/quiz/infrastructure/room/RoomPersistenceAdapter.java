@@ -28,6 +28,13 @@ public class RoomPersistenceAdapter implements RoomPersistencePort {
         );
     }
 
+    @Override
+    public RoomDto getRoomByQuestionId(Long questionId) {
+        RoomEntity entity = repository.getRoomEntityByQuestionId(questionId)
+                .orElseThrow(() -> new IllegalArgumentException("Room for given question didnt find"));
+        return mapper.roomToDTO(entity);
+    }
+
     public boolean isRoomExistById(Long id) {
         return repository.existsById(id);
     }

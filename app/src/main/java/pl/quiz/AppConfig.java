@@ -1,19 +1,23 @@
 package pl.quiz;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.config.MethodInvokingFactoryBean;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.context.annotation.Lazy;
 import pl.quiz.domain.DomainConfig;
 import pl.quiz.domain.event.AsyncCloseTempUserListener;
 import pl.quiz.domain.event.EventPublisherWrapper;
 import pl.quiz.domain.port.*;
 import pl.quiz.domain.service.*;
+import pl.quiz.domain.service.usecase.CloseRoomUseCase;
+import pl.quiz.domain.service.usecase.ScheduleCloseRoomUseCase;
 import pl.quiz.domain.validator.ValidatorUtil;
 import pl.quiz.infrastructure.InfrastructureConfig;
+
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 @Configuration
 @Import({InfrastructureConfig.class, DomainConfig.class})
@@ -66,9 +70,32 @@ public class AppConfig {
     }
 
     @Bean
-    AsyncCloseTempUserListener asyncCloseTempUserListener(HistoricalTemporaryUserService historicalTemporaryUserService,
-                                                          TemporaryUserService temporaryUserService){
-        return new AsyncCloseTempUserListener(historicalTemporaryUserService, temporaryUserService);
+    AsyncCloseTempUserListener asyncCloseTempUserListener(CloseRoomUseCase closeRoomUseCase){
+        return new AsyncCloseTempUserListener(closeRoomUseCase);
     }
+
+    @Bean
+    ScheduledExecutorService scheduledExecutorService() {
+        return Executors.newScheduledThreadPool(1);
+    }
+
+    @Bean
+    ScheduleCloseRoomUseCase scheduleCloseRoomUseCase(ScheduledExecutorService scheduledExecutorService,
+                                                      TemporaryUserService temporaryUserService,
+                                                      CloseRoomUseCase closeRoomUseCase){
+        return new ScheduleCloseRoomUseCase(scheduledExecutorService,
+                closeRoomUseCase,
+                temporaryUserService,
+                persistencePortMB,
+                roomPersistencePort,
+                validatorUtil);
+    }
+
+    @Bean
+    CloseRoomUseCase closeRoomUseCase(HistoricalTemporaryUserService historicalTemporaryUserService,
+                                      TemporaryUserService temporaryUserService) {
+        return new CloseRoomUseCase(historicalTemporaryUserService, temporaryUserService);
+    }
+
 
 }

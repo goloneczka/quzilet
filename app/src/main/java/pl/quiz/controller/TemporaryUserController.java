@@ -17,7 +17,7 @@ public class TemporaryUserController {
     public final TemporaryUserService temporaryUserService;
 
     @PostMapping(value = ControllerMapping.CREATE_TMP_USER)
-    ResponseEntity<Long> createNewTempUser(@RequestBody TemporaryUserDto temporaryUser){
+    ResponseEntity<String> createNewTempUser(@RequestBody TemporaryUserDto temporaryUser){
         return ResponseEntity.ok()
                 .body(temporaryUserService.createTempUser(temporaryUser));
     }

@@ -1,6 +1,5 @@
 package pl.quiz.domain.port;
 
-import pl.quiz.domain.dto.QuestionAnswer;
 import pl.quiz.domain.dto.vo.TempUserFinishDataVO;
 
 import java.util.List;

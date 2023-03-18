@@ -3,6 +3,7 @@ package pl.quiz.domain.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import pl.quiz.domain.constraint.IsProperDateRange;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
@@ -15,6 +16,7 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@IsProperDateRange
 public class RoomDto {
 
     private Long id;
@@ -28,6 +30,7 @@ public class RoomDto {
     @NotNull
     private LocalDateTime startDate;
 
+    @NotNull
     private LocalDateTime endDate;
 
 }

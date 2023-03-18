@@ -47,4 +47,8 @@ public class QuestionAnswerService {
         return finishDataVOList;
 
     }
+
+    public boolean isUserAnswerAlreadyExist(QuestionAnswerDto questionAnswerDto){
+        return questionAnswerPersistencePort.isUserAnswerAlreadyExist(questionAnswerDto);
+    }
 }

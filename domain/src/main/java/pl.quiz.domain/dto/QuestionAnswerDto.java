@@ -4,8 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import pl.quiz.domain.ErrorConstraint;
+import pl.quiz.domain.constraint.IsNotAlreadyAnswered;
 import pl.quiz.domain.constraint.IsQuestionExist;
-import pl.quiz.domain.constraint.IsTempUserExist;
+import pl.quiz.domain.constraint.IsRoomOpen;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -13,6 +14,8 @@ import javax.validation.constraints.Min;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@IsNotAlreadyAnswered
+@IsRoomOpen
 public class QuestionAnswerDto {
 
 

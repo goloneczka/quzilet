@@ -11,6 +11,7 @@ import pl.quiz.infrastructure.room.RoomEntity;
 import pl.quiz.infrastructure.room.RoomMapper;
 import pl.quiz.infrastructure.room.RoomRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 @AllArgsConstructor
@@ -21,10 +22,10 @@ public class TemporaryUserPersistenceAdapter implements TemporaryUserPersistence
 
 
     @Override
-    public Long create(TemporaryUserDto dto) {
+    public String create(TemporaryUserDto dto) {
         TemporaryUserEntity entity = mapper.toEntity(dto);
         entity.setUuid(UUIDGeneratorUtil.generate64StringUUID());
-        return repository.save(entity).getId();
+        return repository.save(entity).getUuid();
     }
 
     @Override
@@ -46,6 +47,14 @@ public class TemporaryUserPersistenceAdapter implements TemporaryUserPersistence
         Long id = entity.getId();
         repository.deleteById(id);
         return id;
+    }
+
+    @Override
+    public List<TemporaryUserDto> getTempUsersInRoom(Long roomId) {
+        List<TemporaryUserEntity> entities = repository.getAllByRoomId(roomId);
+        return entities.stream()
+                .map(mapper::toDto)
+                .toList();
     }
 
 }
