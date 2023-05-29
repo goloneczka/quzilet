@@ -7,9 +7,11 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.core.io.ClassPathResource
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
+import org.springframework.security.test.context.support.WithUserDetails
 import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.ContextConfiguration
+import org.springframework.test.context.jdbc.Sql
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.transaction.annotation.Transactional
 import pl.quiz.App
@@ -32,6 +34,9 @@ import spock.lang.Specification
 @ContextConfiguration(classes = [App])
 @AutoConfigureMockMvc
 @Transactional
+@Sql([
+        'classpath:fixture/sql/creatoruser/creator_user.sql'
+])
 class RoomControllerITSpec extends Specification {
 
     @Autowired
@@ -40,6 +45,7 @@ class RoomControllerITSpec extends Specification {
     @Autowired
     ObjectMapper objectMapper
 
+    @WithUserDetails(value = "Im_room_creator", userDetailsServiceBeanName = "creatorUserAuthService")
     def 'should return 200 when json creating room is ok'() {
 
         given:
@@ -55,6 +61,7 @@ class RoomControllerITSpec extends Specification {
 
     }
 
+    @WithUserDetails(value = "Im_room_creator", userDetailsServiceBeanName = "creatorUserAuthService")
     def 'should return error when json creating room has wrong answer'() {
 
         given:

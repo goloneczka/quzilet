@@ -1,6 +1,7 @@
 package pl.quiz.infrastructure.room;
 
 import lombok.*;
+import pl.quiz.infrastructure.creatoruser.CreatorUserEntity;
 import pl.quiz.infrastructure.question.QuestionEntity;
 
 import javax.persistence.*;
@@ -37,5 +38,9 @@ public class RoomEntity {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "room")
     private Set<QuestionEntity> questions;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "creator_id", nullable = false)
+    private CreatorUserEntity creatorUser;
 
 }

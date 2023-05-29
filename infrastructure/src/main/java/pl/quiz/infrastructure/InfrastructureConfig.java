@@ -2,6 +2,9 @@ package pl.quiz.infrastructure;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import pl.quiz.infrastructure.creatoruser.CreatorUserMapper;
+import pl.quiz.infrastructure.creatoruser.CreatorUserPersistenceAdapter;
+import pl.quiz.infrastructure.creatoruser.CreatorUserRepository;
 import pl.quiz.infrastructure.historicaltempuser.HistoricalTempUserMapper;
 import pl.quiz.infrastructure.historicaltempuser.HistoricalTempUserPersistenceAdapter;
 import pl.quiz.infrastructure.historicaltempuser.HistoricalTempUserRepository;
@@ -49,6 +52,12 @@ public class InfrastructureConfig {
     QuestionAnswerPersistenceAdapter questionAnswerPersistenceAdapter(QuestionAnswerMapper mapper,
                                                                       QuestionAnswerRepository repository) {
         return new QuestionAnswerPersistenceAdapter(repository, mapper);
+    }
+
+    @Bean
+    CreatorUserPersistenceAdapter creatorUserPersistenceAdapter(CreatorUserMapper mapper,
+                                                                CreatorUserRepository repository) {
+        return new CreatorUserPersistenceAdapter(repository, mapper);
     }
 
     @Bean

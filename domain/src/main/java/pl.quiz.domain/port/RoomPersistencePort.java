@@ -1,12 +1,12 @@
 package pl.quiz.domain.port;
 
-import pl.quiz.domain.dto.QuestionDto;
 import pl.quiz.domain.dto.QuestionToAskDto;
 import pl.quiz.domain.dto.RoomDto;
+import pl.quiz.domain.dto.vo.CreatorRoomVO;
 
 public interface RoomPersistencePort {
 
-    Long create(RoomDto room);
+    Long create(CreatorRoomVO room);
 
     boolean isRoomExistById(Long id);
 

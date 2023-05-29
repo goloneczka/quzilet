@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS TEMPORARY_USER (
     uuid VARCHAR(127) not null,
     name VARCHAR(1024) not null,
     silly_password VARCHAR(1024) default 'NO_PASSWORD_NEEDED',
-    room_id VARCHAR(104) not null,
+    room_id INTEGER not null,
 
     CONSTRAINT fk_temporary_user_room_id foreign key (room_id) references ROOM(id),
 );

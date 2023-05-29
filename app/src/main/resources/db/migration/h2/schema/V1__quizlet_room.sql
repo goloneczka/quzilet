@@ -1,3 +1,12 @@
+create sequence CREATOR_USER_SEQ increment by 1;
+
+CREATE TABLE IF NOT EXISTS CREATOR_USER (
+    id bigint PRIMARY KEY,
+    name VARCHAR(1024) not null,
+    password VARCHAR(1024) not null
+);
+
+
 create sequence ROOM_SEQ increment by 1;
 
 CREATE TABLE IF NOT EXISTS ROOM (
@@ -5,7 +14,10 @@ CREATE TABLE IF NOT EXISTS ROOM (
     uuid_path VARCHAR(127) not null,
     name VARCHAR(1024) not null,
     start_date DATETIME not null,
-    end_date DATETIME not null
+    end_date DATETIME not null,
+    creator_id INTEGER not null,
+
+    CONSTRAINT fk_room_creator_id foreign key (creator_id) references CREATOR_USER(id)
 );
 
 create sequence QUESTION_SEQ increment by 1;

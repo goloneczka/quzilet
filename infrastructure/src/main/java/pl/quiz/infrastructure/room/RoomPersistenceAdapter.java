@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import pl.quiz.domain.dto.QuestionToAskDto;
 import pl.quiz.domain.dto.RoomDto;
+import pl.quiz.domain.dto.vo.CreatorRoomVO;
 import pl.quiz.domain.port.RoomPersistencePort;
 
 
@@ -39,7 +40,7 @@ public class RoomPersistenceAdapter implements RoomPersistencePort {
         return repository.existsById(id);
     }
 
-    public Long create(RoomDto room) {
+    public Long create(CreatorRoomVO room) {
         RoomEntity entity = mapper.roomToEntity(room);
         return repository.save(entity).getId();
     }

@@ -1,4 +1,4 @@
-package pl.quiz.domain.service;
+package pl.quiz.domain.service.auth;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.User;

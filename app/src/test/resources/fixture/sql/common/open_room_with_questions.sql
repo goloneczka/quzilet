@@ -1,14 +1,20 @@
 ALTER SEQUENCE ROOM_SEQ RESTART WITH 1;
 ALTER SEQUENCE QUESTION_SEQ RESTART WITH 1;
 ALTER SEQUENCE TEMPORARY_USER_SEQ RESTART WITH 1;
+ALTER SEQUENCE CREATOR_USER_SEQ RESTART WITH 1;
 
+SET @creator_id = CREATOR_USER_SEQ.nextval;
 SET @room_id = ROOM_SEQ.nextval;
 SET @st_question_id = QUESTION_SEQ.nextval;
 SET @nd_question_id = QUESTION_SEQ.nextval;
 SET @th_question_id = QUESTION_SEQ.nextval;
 
+insert into CREATOR_USER values
+        (@creator_id, 'Im_room_creator', 'password_to_encode!');
+
+
 insert into ROOM values
-        (@room_id, '111-222', 'test room', DATEADD('DAY', -1, CURRENT_DATE), DATEADD('DAY', 1, CURRENT_DATE));
+        (@room_id, '111-222', 'test room', DATEADD('DAY', -1, CURRENT_DATE), DATEADD('DAY', 1, CURRENT_DATE), @creator_id);
 
 
 insert into QUESTION values

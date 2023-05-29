@@ -3,10 +3,10 @@ package pl.quiz.controller;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import pl.quiz.domain.service.RoomService;
 import pl.quiz.domain.dto.RoomDto;
-import pl.quiz.domain.service.usecase.ScheduleCloseRoomUseCase;
+import pl.quiz.domain.service.usecase.RoomServiceUseCase;
 
 import static pl.quiz.ControllerMapping.CREATE_ROOM;
 
@@ -14,11 +14,11 @@ import static pl.quiz.ControllerMapping.CREATE_ROOM;
 @AllArgsConstructor
 public class RoomController {
 
-    private final ScheduleCloseRoomUseCase scheduleCloseRoomUseCase;
+    private final RoomServiceUseCase roomServiceUseCase;
 
     @PostMapping(value = CREATE_ROOM)
-    ResponseEntity<Long> createNewRoom(@RequestBody RoomDto room){
+    ResponseEntity<Long> createNewRoom(@RequestBody RoomDto room, Authentication authentication){
         return ResponseEntity.ok()
-                .body(scheduleCloseRoomUseCase.createRoom(room));
+                .body(roomServiceUseCase.createRoom(room, authentication.getName()));
     }
 }

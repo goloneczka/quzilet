@@ -6,19 +6,17 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.transaction.event.TransactionalEventListener;
-import pl.quiz.domain.AbstractThreadExecutor;
 
 import pl.quiz.domain.service.usecase.CloseRoomUseCase;
 
 
 @AllArgsConstructor
 @Slf4j
-public class AsyncCloseTempUserListener extends AbstractThreadExecutor {
+public class AsyncCloseTempUserListener {
 
-    @Lazy
     CloseRoomUseCase closeRoomUseCase;
 
-    @Async
+    @Async("asyncExecutor")
     @TransactionalEventListener
     public void cleanUpAfterTempUserFinishedRoom(CloseTempUserEvent closeTempUser) {
         log.warn("listener {} is executing in thread {}", this.getClass(), Thread.currentThread());
