@@ -2,15 +2,20 @@ ALTER SEQUENCE ROOM_SEQ RESTART WITH 1;
 ALTER SEQUENCE QUESTION_SEQ RESTART WITH 1;
 ALTER SEQUENCE TEMPORARY_USER_SEQ RESTART WITH 1;
 ALTER SEQUENCE QUESTION_ANSWER_SEQ RESTART WITH 1;
+ALTER SEQUENCE CREATOR_USER_SEQ RESTART WITH 1;
 
 SET @room_id = ROOM_SEQ.nextval;
 SET @st_question_id = QUESTION_SEQ.nextval;
 SET @nd_question_id = QUESTION_SEQ.nextval;
 SET @th_question_id = QUESTION_SEQ.nextval;
 SET @user_id = TEMPORARY_USER_SEQ.nextval;
+SET @creator_id = CREATOR_USER_SEQ.nextval;
+
+insert into CREATOR_USER values
+    (@creator_id, 'Im_room_creator', '$2a$10$6VJnsUPHCDbjC4qOzo4Sd.b.J.i0xwJuktLDgbYQa13eascPMxpZa');
 
 insert into ROOM values
-        (@room_id, '111-222', 'test room', FORMATDATETIME('2099-03-03 12:00:00', 'yyyy-MM-dd HH:mm:ss'), FORMATDATETIME('2099-03-03 13:00:00', 'yyyy-MM-dd HH:mm:ss'));
+        (@room_id, '111-222', 'test room', FORMATDATETIME('2099-03-03 12:00:00', 'yyyy-MM-dd HH:mm:ss'), FORMATDATETIME('2099-03-03 13:00:00', 'yyyy-MM-dd HH:mm:ss'), @creator_id);
 
 
 insert into QUESTION values
